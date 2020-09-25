@@ -1,5 +1,10 @@
 ---
 title: "The Basics of Fourier Transforms"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 author: "Chris Hering"
 date: "1/7/2020"
 output:
