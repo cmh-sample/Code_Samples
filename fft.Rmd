@@ -1,7 +1,6 @@
 ---
 title: "The Basics of Fourier Transforms"
-author: "Chris Hering"
-date: "1/7/2020"
+date: "Creation date: 1/7/2020"
 ---
 
 ```{r setup, include=FALSE}
@@ -9,8 +8,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## This is a test :o
-and this is test text
 
 ```{r include=FALSE}
 f1 <- .01
