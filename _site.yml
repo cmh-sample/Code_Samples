@@ -1,0 +1,11 @@
+name: "my-website"
+navbar:
+  title: "My Website"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "FFT"
+      href: fft.html
+output:
+  html_document:
+    theme: cosmo
