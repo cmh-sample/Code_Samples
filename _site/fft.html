@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Chris Hering" />
+
+
+<title>The Basics of Fourier Transforms</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="fft.html">FFT</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">The Basics of Fourier Transforms</h1>
+<h4 class="author">Chris Hering</h4>
+<h4 class="date">1/7/2020</h4>
+
+</div>
+
+
+<div id="this-is-a-test-o" class="section level2">
+<h2>This is a test :o</h2>
+<p>and this is test text</p>
+<p>Begin with a combination of sine waves going from t = 0 to 10,000 seconds, sampled at a 0.5 Hz.</p>
+<pre class="r"><code>t2 &lt;- seq(1, 10000, by=2)
+x2 &lt;- (10*(sin(2*pi*t2*f1)) + 5*sin(2*pi*t2*f2) + 15*sin(2*pi*t2*f3)) 
+plot(t2,x2, type=&quot;l&quot;, xlim=c(0,1000), xlab=&#39;Time&#39;, ylab=&#39;Amplitude&#39;)</code></pre>
+<p><img src="fft_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The above waveform is composed of 3 distinct sine waves occuring at specified frequencies. Viewed in the time domain, it looks periodic, but is difficult to interpret. Decomposing the signal in the frequency domain can give us more-useful information.</p>
+</div>
+<div id="fourier-transforms" class="section level2">
+<h2>Fourier Transforms</h2>
+<p>Fourier transforms produce information about the frequencies contained in a signal. Actually, they try to regress the time signal with a combination of sine and cosine waves, ie recreate the original signal using sine functions.</p>
+<p>Because real world time signals will always be sampled at some frequency, and will be aperiodic, these transforms are implemented using discrete-time fourier transform algorithms. The most common of these is the <strong>fast fourier transform (FFT)</strong>.</p>
+<p>Below, we run the time domain signal through a FFT algorithm.</p>
+<pre class="r"><code>fft2 &lt;- fft(x2)
+head(fft2)</code></pre>
+<pre><code>## [1] -2.069100e-11+0.000000e+00i -8.168865e-12-9.157684e-12i
+## [3] -7.837939e-12+1.282761e-12i -7.743746e-12-1.224481e-11i
+## [5] -5.420746e-12-1.051039e-11i  8.456100e-12+2.929933e-12i</code></pre>
+<p>The output of this (as well as most) FFT algorithm is complex. This makes sense, as it is a concise way to represent information about a large number of sine waves.</p>
+<p>The head() function in R displayed only the first 6 values of the FFT vector. In fact, there are (Duration of time signal)*(Sampling frequency) = 5000 values in the FFT output vector:</p>
+<pre class="r"><code>length(fft2)</code></pre>
+<pre><code>## [1] 5000</code></pre>
+<pre class="r"><code>all.equal(length(fft2), tail(t2, n=1)*fs2, length(x2))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>This raw output of 5000 values is not very useful by itself. We take the real part of every complex vector and graph it along an index:</p>
+<p><img src="fft_files/figure-html/First%20FFT%20graph-1.png" width="672" /></p>
+<p>A few notes:</p>
+<ul>
+<li>There are 6 peaks apparently symmetric about the y axis</li>
+<li>The x axis has been labeled as “bins”</li>
+<li>The magnitudes of each peak are large</li>
+</ul>
+<p>Currently, the y axis is off by a factor of 1/N and requires scaling if any information about the amplitudes of the underlying oscillations is desired. This is a consequence of the implementation of the <em>FFT</em> algorithm. Unfortunately, there is not yet a standard for its (FFT or IFFT) implementation, so you will have to check whether or not the software you’re using does this automatically.</p>
+<p>Additionally, it is not yet obvious what the x axis is. Again, this is concomitant with the implementation of the FFT algorithm. Because computers can only handle discrete-time implementations of Foureir Transforms, only certain frequencies can be checked. To convert the indices to frequency values, you scale them by (sampling frequency)/N</p>
+<p>Finally, because we are usually working with data sets gathered from physical processes, we only care about the first half of the above spectrum; the second contains information about “negative frequencies” and will be symmetric for data gathered from real processes. Double the first half of the spectrum and discard the second half.</p>
+</div>
+<div id="rescaling-the-axes" class="section level2">
+<h2>Rescaling the Axes</h2>
+<p>One of the trickiest parts of making a magnitude spectrum is just understanding the FFT output and knowing how to scale it. The following lines scale the magnitude and frequency axes as described above and produce a much more intuitive plot:</p>
+<pre class="r"><code>#Remove all after the nyquist frequency (first half of the bins):
+fft2.x &lt;- fft2.x[1:2501]*fs2/length(fft2)       #Convert bins to frequencies
+fft2.y &lt;- fft2.y[1:2501]/(length(fft2)/2)       #Scale magnitudes
+
+plot(fft2.x, fft2.y, xlab=&#39;Freq (Hz)&#39;, ylab=&#39;Magnitude&#39;, type=&quot;l&quot;)  </code></pre>
+<p><img src="fft_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Finally we have a spectrum displying useful information. 3 distinct oscillations made up the original time signal: a 5 amplitude sine wave oscillating at .005 Hz, a 10 amplitude sine wave oscillating at .01 Hz, and a 15 amplitude wave oscillating at .02 Hz. Getting the period of each wave and thinking about that value in the context of where the original data came from can yeild new insights.</p>
+<p>However, magnitude is not usually the parameter of concern. Instead, a power spectrum or a power spectral density graph is created Sometimes the two terms are erroneously used interchangeably.</p>
+<p>A power spectrum is just the magnitude squared and then divided by two. This is to account for the half of the spectrum which was discarded.</p>
+<pre class="r"><code>plot(fft2.x, fft2.y**2/2, xlab=&#39;Freq (Hz)&#39;, ylab=&#39;Power&#39;, 
+     type=&quot;l&quot;, xlim=c(00,.05))              </code></pre>
+<p><img src="fft_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Such a spectrum has an interesting property: the power of a frequency is approximately the contribution of that frequency to the total variance of the time signal. This holds true if we remember to account for the side of the spectrum which we threw away; otherwise, an inverse fourier transform of this data would leave us with a diminished version of our original time series. But honestly, the power spectrum doesn’t <em>look</em> very different from the magnitude spectrum.</p>
+<p>Possibly the most commonly analyzed frequency spectrum is the power spectral density (PSD). It is calculated by taking the fourier transform of the autocorrelation funcion of a stochastic time series signal. However, it can be estimated by dividing the power spectrum (derived from a periodogram) by the effective noise bandwidth. In this case, where “no” windowing was used, that will just be the length (duration) of the time series. The area under a PSD curve will always sum to 1. So, if you increase your sampling frequency, a given PSD peak will grow taller, so that the area under that peak remains the same.</p>
+<p>The PSD is shown below:</p>
+<pre class="r"><code>plot(fft2.x, (fft2.y)**2*(ts2*length(t2)/2), xlab=&#39;Freq (Hz)&#39;,   #(Pow)*ts*L
+     ylab=&#39;PSD&#39;, type=&quot;l&quot;)    </code></pre>
+<p><img src="fft_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="what-now" class="section level2">
+<h2>What Now</h2>
+<p>This analysis is useful for quickly determining whether or not there are periodic trends in your data set. This is most useful when you have a group of parameters oscillating, as you can find out which frequencies are present and which ones are the strongest. The fourier analysis outputs also contain information about the phase of each wave, so cross spectral densities and coherences could be estimated as well. But it will usually be simpler and quicker to visually inspect the data to determine which waves occur first.</p>
+<p>Finally, there are a few issues to consider when decomposing real world time series. The most important of these will be deciding how much data to use, determining if your sampling rate is sufficient, and evaluating the stationarity of your time series signal. Because periodograms are inconsistent estimators of spectral density, <strong>using more data will give you a noiser result.</strong> Other methods must be used if more-precise spectra are desired.</p>
+<p><img src="fft_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
