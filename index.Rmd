@@ -1,29 +1,13 @@
 ---
-title: "index"
-author: "Chris Hering"
-date: "9/24/2020"
+title: "Welcome"
+date: "Creation date: 9/24/2020"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word docdocument will be generated that includes both content as well as the output of anyuments. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This is a personal website I created to host various analyses and programming tasks I've completed in the professional world. There is a GitHub repository containing some more examples at https://github.com/cmh-sample/Code_Samples.
 
-When you click the **Knit** button a  embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+This is certainly a work in progress! Currently the FFT tab will take you to a tutorial on using and understanding the fast fourier transform. The FFT Example tab will take you to an interactive tutorial and example of a real-world use-case of FFT.

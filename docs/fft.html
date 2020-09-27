@@ -10,7 +10,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Chris Hering" />
 
 
 <title>The Basics of Fourier Transforms</title>
@@ -24,6 +23,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -269,7 +270,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">My Website</a>
+      <a class="navbar-brand" href="index.html">Chris Hering</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -279,9 +280,23 @@ $(document).ready(function () {
 <li>
   <a href="fft.html">FFT</a>
 </li>
+<li>
+  <a href="https://cmh2.shinyapps.io/FFT_Notes/">FFT Example</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/cmh-sample/Code_Samples">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://linkedin.com/in/chris-hering-685118159">
+    <span class="fa fa-linkedin fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -292,22 +307,17 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">The Basics of Fourier Transforms</h1>
-<h4 class="author">Chris Hering</h4>
-<h4 class="date">1/7/2020</h4>
+<h4 class="date">Creation date: 1/7/2020</h4>
 
 </div>
 
 
-<div id="this-is-a-test-o" class="section level2">
-<h2>This is a test :o</h2>
-<p>and this is test text</p>
 <p>Begin with a combination of sine waves going from t = 0 to 10,000 seconds, sampled at a 0.5 Hz.</p>
 <pre class="r"><code>t2 &lt;- seq(1, 10000, by=2)
 x2 &lt;- (10*(sin(2*pi*t2*f1)) + 5*sin(2*pi*t2*f2) + 15*sin(2*pi*t2*f3)) 
 plot(t2,x2, type=&quot;l&quot;, xlim=c(0,1000), xlab=&#39;Time&#39;, ylab=&#39;Amplitude&#39;)</code></pre>
 <p><img src="fft_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The above waveform is composed of 3 distinct sine waves occuring at specified frequencies. Viewed in the time domain, it looks periodic, but is difficult to interpret. Decomposing the signal in the frequency domain can give us more-useful information.</p>
-</div>
 <div id="fourier-transforms" class="section level2">
 <h2>Fourier Transforms</h2>
 <p>Fourier transforms produce information about the frequencies contained in a signal. Actually, they try to regress the time signal with a combination of sine and cosine waves, ie recreate the original signal using sine functions.</p>

@@ -1,12 +1,19 @@
 name: "my-website"
 output_dir: "docs"
 navbar:
-  title: "My Website"
+  title: "Chris Hering"
   left:
     - text: "Home"
       href: index.html
     - text: "FFT"
       href: fft.html
+    - text: "FFT Example"
+      href: https://cmh2.shinyapps.io/FFT_Notes/ 
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/cmh-sample/Code_Samples
+    - icon: fa-linkedin fa-lg
+      href: http://linkedin.com/in/chris-hering-685118159
 output:
   html_document:
     theme: cosmo
