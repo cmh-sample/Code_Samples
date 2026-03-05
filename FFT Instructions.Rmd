@@ -6,6 +6,59 @@ output: html_document
 runtime: shiny
 ---
 
+```{r site additions, echo=F}
+
+tagList(
+  tags$style("
+    @media (max-width: 576px) {
+      .side-nav-btn {
+        display: none;
+      }
+    }
+  "),
+  tags$div(
+    style = "position: fixed; top: 5%; left: 20px;",
+    tags$a(
+    href = "https://cmh-sample.github.io/Code_Samples/",
+    target = "_self",
+    class = "btn btn-primary btn-sm side-nav-btn",
+    "Back to home site"
+    )
+  ),
+  tags$script(HTML("
+    var resizeTimer;
+    var btnWidth = null;
+    
+    function checkOverlap() {
+      var btn = document.querySelector('.side-nav-btn');
+      var content = document.querySelector('.main-container');
+      if (!btn || !content) return;
+      
+       // capture btn width once while it is visible
+      if (btnWidth === null) {
+        btnWidth = btn.offsetWidth + 20;
+      }
+
+      var marginLeft = parseFloat(getComputedStyle(content).marginLeft);
+      
+      if (btnWidth > marginLeft) {
+        btn.style.display = 'none';
+      } else {
+        btn.style.display = 'block';
+      }
+    }
+
+    window.addEventListener('resize', function(){
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(checkOverlap, 150);
+    });
+    
+    window.addEventListener('load', checkOverlap);
+   "))
+  )
+```
+
+
 ```{r setup, include=FALSE} 
 knitr::opts_chunk$set(echo = TRUE) 
 library(e1071)
